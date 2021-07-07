@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>
+            Test page
+        </title>
+        <style>
+            .main-container {
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            iframe {
+                width: 100%;
+                height: 100%;
+
+                border: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-container">
+            <input type="email" id="email-address" placeholder="Email Address" />
+            <button id="lookup-button">
+                Validate
+            </button>
+        </div>
+        <iframe id="result-iframe"></iframe>
+
+        <script type="text/javascript">
+
+            let lookupButton = document.querySelector("button#lookup-button");
+
+            lookupButton.addEventListener("click", function(e) {
+                e.preventDefault();
+
+                let emailAddressInput = document.querySelector("input#email-address");
+
+                if (emailAddressInput.value != "")
+                {
+                    fetch("https://hook.integromat.com/r11xemwf6t8at2ap55lqrjfgc2xqy5mq?email=" + emailAddressInput.value, {
+                        method: "GET"
+                    })
+                    .then(response => response.text())
+                    .then(text => {
+                        if (text.indexOf("https://") === 0)
+                        {
+                            document.querySelector("iframe#result-iframe").src = text;
+                        }
+                    })
+                }
+            });
+
+        </script>
+    </body>
+</html>
